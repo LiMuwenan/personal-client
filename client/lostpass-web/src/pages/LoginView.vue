@@ -50,7 +50,8 @@ import { ref, reactive } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
 import { login } from '~/api/manager.js'
 import { useStore} from 'vuex'
-import { ElNotification } from 'element-plus';
+import { toast } from '~/util/util'
+import router from '~/router/index'
 
 const loginForm = ref(null)
 const store = useStore()
@@ -90,16 +91,18 @@ const onSubmit = () => {
         if (valid) {
             login(form.username, form.password)
                 .then((res) => {
-                    console.log(res)
-                    //todo store
-                    store.commit("set_userinfo", res)
+                    if (res.data.data) {
+                        //todo store
+                        console.log(res.data.data)
+                        store.commit("set_userinfo", res.data.data)
+                        router.push("/")
+                    } else {
+                        toast("登录失败", "error")
+                    }
+
                 })
                 .catch((err) => {
-                    ElNotification({
-                        title: 'Error',
-                        message: err.response.data.msg || '登录请求失败',
-                        type: 'error',
-                    })
+                    toast(err, "error")
                 })
         }
     })

@@ -5,6 +5,7 @@ import App from './App.vue'
 import ElementPlus from 'element-plus'
 import Router from './router'
 import store from './store/index'
+import "./permissions"
 
 const app = createApp(App)
 app.use(ElementPlus)
