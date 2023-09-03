@@ -4,7 +4,7 @@ import 'virtual:windi.css'
 import App from './App.vue'
 import ElementPlus from 'element-plus'
 import Router from './router'
-import store from './store/store'
+import store from './store/index'
 
 const app = createApp(App)
 app.use(ElementPlus)
