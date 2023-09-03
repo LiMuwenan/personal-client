@@ -1,7 +1,6 @@
 <template>
     <div>
         后台首页
-        {{ $store.state.user }}
     </div>
     <el-button @click="set">设置</el-button>
     <el-button @click="read">读取</el-button>
