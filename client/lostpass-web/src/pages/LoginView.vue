@@ -95,7 +95,7 @@ const onSubmit = () => {
                         //todo store
                         console.log(res.data.data)
                         store.commit("set_userinfo", res.data.data)
-                        router.push("/")
+                        router.push("/index")
                     } else {
                         toast("登录失败", "error")
                     }
