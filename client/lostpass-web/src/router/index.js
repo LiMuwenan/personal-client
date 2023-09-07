@@ -6,8 +6,8 @@ import {
 import Index from '~/pages/index.vue'
 import Login from '~/pages/LoginView.vue'
 import NotFound from '~/pages/http/404.vue'
-import BillListView from '~/components/main/bill/BillListView.vue'
-import UserListView from '~/components/main/user/UserListView.vue'
+import BillListView from '~/pages/main/bill/BillListView.vue'
+import UserListView from '~/pages/main/user/UserListView.vue'
 
 // 这些都会传给createRouter
 const routes = [
