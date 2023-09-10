@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import LoginRightComponent from '../components/login/LoginRightComponent.vue';
+import LoginRightComponent from '~/components/login/LoginRightComponent.vue';
 
 
 </script>
