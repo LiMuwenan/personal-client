@@ -53,9 +53,9 @@
 </template>
 
 <script setup>
-import { ref, reactive, toDisplayString } from 'vue'
+import { ref, reactive } from 'vue'
 import { addBillItem } from '~/api/bill.js'
-import { toast } from '~/util/util'
+import { toast, coverterTime } from '~/util/util'
 
 const billForm = ref(null)
 // 表单数据
@@ -113,6 +113,7 @@ const rules = {
 }
 
 const onSubmit = () => {
+    bill.costTime = coverterTime(bill.costTime)
     billForm.value.validate((valid) => {
         if (valid) {
             addBillItem(bill)
