@@ -6,7 +6,7 @@
                 <el-menu 
                 :default-openeds="[]" 
                 router
-                unique-opened="ture"
+                unique-opened="true"
                 text-color="white"
                 active-text-color="white"
                 >

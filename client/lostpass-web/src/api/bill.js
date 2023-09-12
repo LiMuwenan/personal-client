@@ -1,8 +1,17 @@
 import axios from "~/axios"
 
-export function queryBillList() {
+export function queryBillList(billQuery) {
     return axios.get(
-        "/api/bill/list"
+        "/api/bill/list",
+        {
+            params: {
+                code: 1,
+                costTime: '',
+                size: 20,
+                current: 2
+            }
+        }
+
     )
 }
 
