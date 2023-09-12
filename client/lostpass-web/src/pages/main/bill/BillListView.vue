@@ -26,7 +26,7 @@
             <el-table-column prop="cost" label="花费" />
             <el-table-column>
                 <template #header>
-                    <el-input v-model="search" size="small" placeholder="Type to search" />
+                    <el-input v-model="search" size="small" placeholder="Type to search"/>
                 </template>
                 <el-button size="small" type="danger" @click="handleDelete()">
                     Delete
@@ -40,8 +40,9 @@
                 :small="small" 
                 :disabled="disabled"
                 :background="background" 
-                layout="total, prev, pager, next" 
-                :total="total" 
+                layout="total, sizes, prev, pager, next" 
+                :total="total"
+                @size-change="handleSizeChange"
                 @current-change="handleCurrentChange" />
         </div>
 
@@ -61,68 +62,56 @@ const currentPage = ref(1)
 const pageSize = ref(20)
 const background = ref(true)
 const billQuery = reactive({
-    code: '',
-    costTime: '',
+    codes: null,
+    startTime: null,
+    endTime: null,
+    lowCost: null,
+    highCost: null,
     page: {
-        current: '',
-        size: ''
+        current: null,
+        size: null
     }
 })
-
+const search = ref('')
 const tableData = ref([])
 const tags = ref(new Set())
-
 // 挂载获取数据
 onMounted(() => {
+    billList()
+})
+
+function billList() {
+    billQuery.page.current = currentPage.value
+    billQuery.page.size = pageSize.value
     queryBillList(billQuery)
         .then((res) => {
             let result = res.data.data
             result.records = reponseDataFormat(result.records)
-            // 格式化时间
             tableData.value = result.records
+            total.value = result.total
         })
         .catch((err) => {
             console.log(err)
         })
-})
+}
 
 function reponseDataFormat(dateArr) {
-    let tmp = dateArr.filter((item) => {
+    total.value = dateArr.length
+    return dateArr.filter((item) => {
         item.cost = item.cost.toFixed(2)
         return item
     })
-    let flag = false
-    // 类型筛选
-    for (let i = 0; i < tmp.length; ++i) {
-        flag = false
-        for (let item of tags.value) {
-            if (item.value == tmp[i].code) {
-                flag = true
-                break
-            }
-        }
-        if (!flag) {
-            tags.value.add({
-                text: tmp[i].message,
-                value: tmp[i].code
-            })
-        }
-    }
-    total.value = dateArr.length
-
-    return tmp;
 }
 
+// 更改当前页
 function handleCurrentChange() {
-    queryBillList(billQuery)
-        .then((res) => {
-            res.data.data = reponseDataFormat(res.data.data)
-            // 格式化时间
-            tableData.value = res.data.data
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+    billList()
+}
+// 更改分页大小
+function handleSizeChange(number) {
+    pageSize.value = number
+    currentPage.value = 1
+    billList()
 }
 </script>
 

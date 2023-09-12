@@ -5,10 +5,14 @@ export function queryBillList(billQuery) {
         "/api/bill/list",
         {
             params: {
-                code: 1,
-                costTime: '',
-                size: 20,
-                current: 2
+                codes: billQuery.codes,
+                startTime: billQuery.startTime,
+                endTime: billQuery.endTime,
+                lowCost: billQuery.lowCost,
+                highCost: billQuery.highCost,
+                // 分页
+                size: billQuery.page.size,
+                current: billQuery.page.current
             }
         }
 
