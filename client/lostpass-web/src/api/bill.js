@@ -2,7 +2,7 @@ import axios from "~/axios"
 
 export function queryBillList(billQuery) {
     return axios.get(
-        "/api/bill/list",
+        "/bill/list",
         {
             params: {
                 codes: billQuery.codes,
@@ -21,7 +21,7 @@ export function queryBillList(billQuery) {
 
 export function addBillItem(bill) {
     return axios.post(
-        "/api/bill/add",
+        "/bill/add",
         {
            title: bill.title,
            cost: bill.cost,
