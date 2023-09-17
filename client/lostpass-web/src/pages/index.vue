@@ -1,44 +1,31 @@
 <template>
-    <el-container class="layout-container-demo" style="height: 500px">
+    <el-container class="layout-container">
         <!-- 左侧导航栏 -->
-        <el-aside width="200px">
+        <el-aside class="left-side">
             <el-scrollbar>
-                <el-menu :default-openeds="[]" router>
+                <el-menu 
+                :default-openeds="[]" 
+                router
+                unique-opened="true"
+                text-color="white"
+                active-text-color="white"
+                >
                     <el-sub-menu index="1">
                         <template #title>
                             <el-icon>
                                 <message />
                             </el-icon>总览
                         </template>
-                        <el-menu-item-group>
-                            <template #title>Group 1</template>
                             <el-menu-item index="1-1">Option 1</el-menu-item>
                             <el-menu-item index="1-2">Option 2</el-menu-item>
-                        </el-menu-item-group>
-                        <el-menu-item-group title="Group 2">
                             <el-menu-item index="1-3">Option 3</el-menu-item>
-                        </el-menu-item-group>
-                        <el-sub-menu index="1-4">
-                            <template #title>Option4</template>
-                            <el-menu-item index="1-4-1">Option 4-1</el-menu-item>
-                        </el-sub-menu>
                     </el-sub-menu>
                     <el-sub-menu index="2">
                         <template #title>
                             <el-icon><icon-menu /></el-icon>密码管理
                         </template>
-                        <el-menu-item-group>
-                            <template #title>Group 1</template>
                             <el-menu-item index="2-1">Option 1</el-menu-item>
                             <el-menu-item index="2-2">Option 2</el-menu-item>
-                        </el-menu-item-group>
-                        <el-menu-item-group title="Group 2">
-                            <el-menu-item index="2-3">Option 3</el-menu-item>
-                        </el-menu-item-group>
-                        <el-sub-menu index="2-4">
-                            <template #title>Option 4</template>
-                            <el-menu-item index="2-4-1">Option 4-1</el-menu-item>
-                        </el-sub-menu>
                     </el-sub-menu>
                     <el-sub-menu index="3">
                         <template #title>
@@ -46,10 +33,8 @@
                                 <setting />
                             </el-icon>账务管理
                         </template>
-                        <el-menu-item-group>
                             <el-menu-item index="/index/billList" >账务总览</el-menu-item>
-                            <el-menu-item index="3-2">添加账务</el-menu-item>
-                        </el-menu-item-group>
+                            <el-menu-item index="/index/billAdd">添加账务</el-menu-item>
                     </el-sub-menu>
                     <el-sub-menu index="4">
                         <template #title>
@@ -73,22 +58,21 @@
         </el-aside>
 
         <!-- 顶部信息显示 -->
-        <el-container>
-            <el-header style="text-align: right; font-size: 12px">
+        <el-container class="bg-gray-100">
+            <el-header style="text-align: right" class="bg-indigo-900 leading-relaxed text-1xl">
                 <div class="toolbar">
                     <el-dropdown>
                         <el-icon style="margin-right: 8px; margin-top: 1px">
-                            <setting />
+                            <setting class="text-light-50"/>
                         </el-icon>
                         <template #dropdown>
                             <el-dropdown-menu>
-                                <el-dropdown-item>View</el-dropdown-item>
-                                <el-dropdown-item>Add</el-dropdown-item>
-                                <el-dropdown-item>Delete</el-dropdown-item>
+                                <el-dropdown-item>个人中心</el-dropdown-item>
+                                <el-dropdown-item>注销登录</el-dropdown-item>
                             </el-dropdown-menu>
                         </template>
                     </el-dropdown>
-                    <span>Tom</span>
+                    <span class="text-light-50">Tom</span>
                 </div>
             </el-header>
 
@@ -114,25 +98,32 @@ import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 </script>
 
 <style scoped>
-.layout-container-demo .el-header {
-    position: relative;
-    background-color: var(--el-color-primary-light-7);
-    color: var(--el-text-color-primary);
+.layout-container {
+    height: 100vh;
 }
 
-.layout-container-demo .el-aside {
-    color: var(--el-text-color-primary);
-    background: var(--el-color-primary-light-8);
+.layout-container .left-side {
+    width: 200px;
+    @apply bg-indigo-500
 }
 
-.layout-container-demo .el-menu {
-    border-right: none;
+.layout-container .el-sub-menu {
+    @apply bg-indigo-400
+}
+.layout-container .el-menu-item{
+    @apply bg-indigo-300
+}
+.layout-container .el-sub-menu :hover{
+    @apply bg-indigo-900
 }
 
-.layout-container-demo .toolbar {
+
+
+.layout-container .toolbar {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     height: 100%;
     right: 20px;
-}</style>
+}
+</style>

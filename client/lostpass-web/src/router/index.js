@@ -8,16 +8,20 @@ import Login from '~/pages/LoginView.vue'
 import NotFound from '~/pages/http/404.vue'
 import BillListView from '~/pages/main/bill/BillListView.vue'
 import UserListView from '~/pages/main/user/UserListView.vue'
+import AddBillView from '~/pages/main/bill/AddBillView.vue'
 
 // 这些都会传给createRouter
 const routes = [
     {
-        path: "/index",
+        path: "/:pathMatch(index?)*",
         component: Index,
         children: [
             {
                 path: "billList",
                 component: BillListView
+            },{
+                path: "billAdd",
+                component: AddBillView
             },{
                 path: "userList",
                 component: UserListView
