@@ -11,6 +11,7 @@
                         <el-option label="水果" value="2" />
                         <el-option label="商超" value="3" />
                         <el-option label="聚餐" value="4" />
+                        <el-option label="医疗" value="5" />
                         <el-option label="水费" value="20" />
                         <el-option label="电费" value="21" />
                         <el-option label="燃气费" value="22" />
