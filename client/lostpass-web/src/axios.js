@@ -1,4 +1,5 @@
 import axios from "axios"
+import { getToken } from '~/util/auth.js'
 
 const service = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API
@@ -7,6 +8,8 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(function (config) {
     // 处理响应数据
+    config.headers['Authorization'] = 'Bearer ' + getToken()
+    console.log('Bearer ' + getToken())
     return config;
 }, {
     function(error) {

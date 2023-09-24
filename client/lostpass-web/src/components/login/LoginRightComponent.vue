@@ -41,6 +41,7 @@ import { User, Lock } from '@element-plus/icons-vue'
 import { ref, reactive } from 'vue'
 import { login } from '~/api/manager.js'
 import { useStore } from 'vuex'
+import { setToken } from '~/util/auth.js'
 import { toast } from '~/util/util'
 import router from '~/router/index.js'
 
@@ -89,6 +90,7 @@ const onSubmit = () => {
                         //todo store
                         console.log(res.data.data)
                         store.commit("set_userinfo", res.data.data)
+                        setToken(res.data.data.accessToken)
                         router.push("/index/main")
                     } else {
                         toast("登录失败", "error")
