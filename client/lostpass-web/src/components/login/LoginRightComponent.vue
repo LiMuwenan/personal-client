@@ -89,7 +89,7 @@ const onSubmit = () => {
                         //todo store
                         console.log(res.data.data)
                         store.commit("set_userinfo", res.data.data)
-                        router.push("/index")
+                        router.push("/index/main")
                     } else {
                         toast("登录失败", "error")
                     }

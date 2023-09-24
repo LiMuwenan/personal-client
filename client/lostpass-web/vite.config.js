@@ -39,16 +39,9 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
           "~": path.resolve(__dirname, "src")
         }
       },
-      // 跨域处理，代理
-      // server: {
-      //   proxy: {
-      //     '/api': {
-      //       target: 'http://localhost:8081',
-      //       changeOrigin: true,
-      //       rewrite: (path) => path.replace(/^\/api/, ''),
-      //     }
-      //   }
-      // },
+      build: {
+        outDir: 'D:\\Program\\local\\client\\lostpass'
+      },
       plugins: [
         vue(),
         WindiCSS(),

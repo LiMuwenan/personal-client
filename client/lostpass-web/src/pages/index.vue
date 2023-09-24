@@ -16,9 +16,7 @@
                                 <message />
                             </el-icon>总览
                         </template>
-                            <el-menu-item index="1-1">Option 1</el-menu-item>
-                            <el-menu-item index="1-2">Option 2</el-menu-item>
-                            <el-menu-item index="1-3">Option 3</el-menu-item>
+                            <el-menu-item index="/index/main">数据总览</el-menu-item>
                     </el-sub-menu>
                     <el-sub-menu index="2">
                         <template #title>
@@ -78,16 +76,6 @@
 
             <!-- 主体 -->
             <router-view></router-view>
-            <!-- <el-main>
-                <el-scrollbar router>
-                    <router-view></router-view>
-                    <el-table :data="tableData">
-                        <el-table-column prop="date" label="Date" width="140" />
-                        <el-table-column prop="name" label="Name" width="120" />
-                        <el-table-column prop="address" label="Address" />
-                    </el-table>
-                </el-scrollbar>
-            </el-main> -->
         </el-container>
     </el-container>
 </template>
