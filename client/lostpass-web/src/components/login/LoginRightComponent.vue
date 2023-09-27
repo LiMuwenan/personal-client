@@ -63,8 +63,8 @@ const rules = {
             message: '用户名不能为空',
             trigger: 'blur'
         }, {
-            min: 3,
-            max: 5,
+            min: 5,
+            max: 10,
             message: '用户名长度在3-5之间',
             trigger: 'blur'
         }
