@@ -41,6 +41,7 @@ import { User, Lock } from '@element-plus/icons-vue'
 import { ref, reactive } from 'vue'
 import { login } from '~/api/manager.js'
 import { useStore } from 'vuex'
+import { setToken } from '~/util/auth.js'
 import { toast } from '~/util/util'
 import router from '~/router/index.js'
 
@@ -62,8 +63,8 @@ const rules = {
             message: '用户名不能为空',
             trigger: 'blur'
         }, {
-            min: 3,
-            max: 5,
+            min: 5,
+            max: 10,
             message: '用户名长度在3-5之间',
             trigger: 'blur'
         }
@@ -89,6 +90,7 @@ const onSubmit = () => {
                         //todo store
                         console.log(res.data.data)
                         store.commit("set_userinfo", res.data.data)
+                        setToken(res.data.data.accessToken)
                         router.push("/index/main")
                     } else {
                         toast("登录失败", "error")
