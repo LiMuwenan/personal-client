@@ -53,3 +53,10 @@ export function queryBillOverview(query) {
 
     )
 }
+
+export function queryCategory() {
+    return axios.post(
+        "/billCategory/query",
+        {}
+    )
+}
