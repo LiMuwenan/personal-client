@@ -9,6 +9,7 @@ import NotFound from '~/pages/http/404.vue'
 import BillListView from '~/pages/main/bill/BillListView.vue'
 import UserListView from '~/pages/main/user/UserListView.vue'
 import AddBillView from '~/pages/main/bill/AddBillView.vue'
+import BillOverviewView from '~/pages/main/bill/BillOverviewView.vue'
 import Main from '~/pages/main/main/Main.vue'
 
 // 这些都会传给createRouter
@@ -29,6 +30,9 @@ const routes = [
             },{
                 path: "main",
                 component: Main
+            },{
+                path: "billOverview",
+                component: BillOverviewView
             }
         ]
     },{

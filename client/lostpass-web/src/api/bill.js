@@ -1,5 +1,10 @@
 import axios from "~/axios"
 
+/**
+ * 查询账单列表
+ * @param {*} billQuery 
+ * @returns 
+ */
 export function queryBillList(billQuery) {
     return axios.get(
         "/bill/list",
@@ -19,6 +24,11 @@ export function queryBillList(billQuery) {
     )
 }
 
+/**
+ * 添加账单信息
+ * @param {*} bill 
+ * @returns 
+ */
 export function addBillItem(bill) {
     return axios.post(
         "/bill/add",
@@ -28,5 +38,18 @@ export function addBillItem(bill) {
            costTime: bill.costTime,
            code: bill.code
         }
+    )
+}
+
+export function queryBillOverview(query) {
+    return axios.get(
+        "/bill/stat",
+        {
+            params: {
+                startTime: query.startTime,
+                endTime: query.endTime
+            }
+        }
+
     )
 }
