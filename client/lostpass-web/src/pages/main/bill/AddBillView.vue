@@ -46,7 +46,6 @@ onMounted(()=>{
     queryCategory()
     .then((res)=>{
         res = res.data.data
-        console.log(res)
         categories.value = res
     })
     .catch((err)=>{
