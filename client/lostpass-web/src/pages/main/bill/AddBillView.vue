@@ -21,9 +21,10 @@
                         <el-option label="交通费" value="26" />
                         <el-option label="电话费" value="27" />
                         <el-option label="旅游" value="40" />
-                        <el-option label="美妆" value="41" />
+                        <el-option label="美妆日化" value="41" />
                         <el-option label="电子产品" value="42" />
                         <el-option label="衣服鞋子" value="43" />
+                        <el-option label="办公学习" value="60" />
                         <el-option label="投资" value="90" />
                         <el-option label="薪水" value="100" />
                         <el-option label="进账" value="101" />
