@@ -98,6 +98,11 @@ export function updateCategory(data) {
     )
 }
 
+/**
+ * 删除种类
+ * @param {*} data 
+ * @returns 
+ */
 export function deleteCategory(data) {
     return axios.post(
         "/billCategory/delete",
