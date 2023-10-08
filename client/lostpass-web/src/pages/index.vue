@@ -34,6 +34,7 @@
                             <el-menu-item index="/index/billList" >账务列表</el-menu-item>
                             <el-menu-item index="/index/billAdd">添加账务</el-menu-item>
                             <el-menu-item index="/index/billOverview">账务总览</el-menu-item>
+                            <el-menu-item index="/index/category">种类管理</el-menu-item>
                     </el-sub-menu>
                     <el-sub-menu index="4">
                         <template #title>

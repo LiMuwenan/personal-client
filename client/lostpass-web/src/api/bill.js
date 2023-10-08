@@ -54,9 +54,55 @@ export function queryBillOverview(query) {
     )
 }
 
+/**
+ * 查询种类
+ * @returns 
+ */
 export function queryCategory() {
     return axios.post(
         "/billCategory/query",
         {}
+    )
+}
+
+/**
+ * 添加种类
+ * @param {*} data 
+ * @returns 
+ */
+export function addCategory(data) {
+    return axios.post(
+        "/billCategory/add",
+        {
+            code: data.code,
+            message: data.message,
+            status: data.status
+        }
+    )
+}
+
+/**
+ * 编辑更新种类
+ * @param {*} data 
+ * @returns 
+ */
+export function updateCategory(data) {
+    return axios.post(
+        "/billCategory/update",
+        {
+            id: data.id,
+            code: data.code,
+            message: data.message,
+            status: data.status
+        }
+    )
+}
+
+export function deleteCategory(data) {
+    return axios.post(
+        "/billCategory/delete",
+        {
+            id: data.id
+        }
     )
 }
