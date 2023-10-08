@@ -35,8 +35,7 @@
             </el-form-item>
             <el-form-item label="种类类型" >
                 <el-select v-model="form.status" placeholder="请选择类型">
-                    <el-option label="收入" value="0" />
-                    <el-option label="支出" value="1" />
+                    <el-option v-for="item in labelOptions" :label="item.label" :value="item.value" />
                 </el-select>
             </el-form-item>
         </el-form>
