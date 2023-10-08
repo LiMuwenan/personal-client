@@ -7,27 +7,10 @@
                 </el-form-item>
                 <el-form-item label="账单类型" prop="code">
                     <el-select v-model="bill.code" placeholder="请选择你的账单类型">
-                        <el-option label="日常" value="1" />
-                        <el-option label="水果" value="2" />
-                        <el-option label="商超" value="3" />
-                        <el-option label="聚餐" value="4" />
-                        <el-option label="医疗" value="5" />
-                        <el-option label="水费" value="20" />
-                        <el-option label="电费" value="21" />
-                        <el-option label="燃气费" value="22" />
-                        <el-option label="取暖费" value="23" />
-                        <el-option label="物业费" value="24" />
-                        <el-option label="车品费" value="25" />
-                        <el-option label="交通费" value="26" />
-                        <el-option label="电话费" value="27" />
-                        <el-option label="旅游" value="40" />
-                        <el-option label="美妆" value="41" />
-                        <el-option label="电子产品" value="42" />
-                        <el-option label="衣服鞋子" value="43" />
-                        <el-option label="投资" value="90" />
-                        <el-option label="薪水" value="100" />
-                        <el-option label="进账" value="101" />
-                        <el-option label="其他" value="200" />
+                        <el-option v-for="category in categories"
+                            :label="category.message"
+                            :value="category.code"
+                        ></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="账单时间" prop="costTime">
@@ -54,9 +37,21 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { addBillItem } from '~/api/bill.js'
+import { ref, reactive, onMounted } from 'vue'
+import { addBillItem, queryCategory } from '~/api/bill.js'
 import { toast, coverterTime } from '~/util/util'
+
+const categories = ref([])
+onMounted(()=>{
+    queryCategory()
+    .then((res)=>{
+        res = res.data.data
+        categories.value = res
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+})
 
 const billForm = ref(null)
 // 表单数据

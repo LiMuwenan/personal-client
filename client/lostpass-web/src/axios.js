@@ -9,7 +9,6 @@ const service = axios.create({
 service.interceptors.request.use(function (config) {
     // 处理响应数据
     config.headers['Authorization'] = 'Bearer ' + getToken()
-    console.log('Bearer ' + getToken())
     return config;
 }, {
     function(error) {
