@@ -2,6 +2,17 @@
     总余额： {{ balance }} <br />
     总收入： {{ income }} <br />
     总支出： {{ spend }} <br />
+    <div>
+      <span>统计日期</span>
+      <el-date-picker
+        v-model="daterange"
+        type="daterange"
+        start-placeholder="Start Date"
+        end-placeholder="End Date"
+        :default-value="[new Date(), new Date()]"
+      />
+      <el-button type="primary" @click="daterangePick()"></el-button>
+    </div>
     <div id="balance" style="width: 500px;height: 500px"></div>
     <div id="month-spend-income" style="width: 1200px;height: 600px"></div>
 </template>
@@ -9,18 +20,12 @@
 <script setup>
 import { onMounted, ref, reactive } from 'vue'
 import { queryBillOverview } from '~/api/bill.js'
+import { coverterTime } from '~/util/util.js'
 import * as echarts from 'echarts';
 
-/**
- * echars启动延时，否则出现dom不可用报错
- */
-setTimeout(() => {
-    pieCharts()
-    histogramCharts()
-}, 200)
-
-const startTime = ref('1970-01-01 00:00:00')
-const endTime = ref('2040-12-31 23:59:59')
+const daterange = ref()
+const startTime = ref(new Date().getFullYear() + '-01-01T00:00:00')
+const endTime = ref(new Date().getFullYear() + '-12-31T00:00:00')
 const query = reactive({
     startTime: null,
     endTime: null
@@ -33,13 +38,15 @@ const groupByCode = ref([])
 const groupByDate = ref([])
 // 挂载组件
 onMounted(() => {
+    pieChart = echarts.init(document.getElementById('balance'))
+    histogramChart = echarts.init(document.getElementById('month-spend-income'))
     queryBill()
 })
 
 // 获取总览数据
 function queryBill() {
-    query.startTime = startTime.value
-    query.endTime = endTime.value
+    query.startTime = coverterTime(startTime.value)
+    query.endTime = coverterTime(endTime.value)
     queryBillOverview(query)
         .then((res) => {
             let data = res.data.data
@@ -48,14 +55,30 @@ function queryBill() {
             spend.value = data.spend;
             groupByCode.value = data.groupByCode;
             groupByDate.value = data.groupByDate;
+            /**
+             * 绘图
+             */
+            pieCharts()
+            histogramCharts()
         })
         .catch((err) => {
             console.log(err)
         })
 }
+
+/**
+ * 选择时间区间
+ */
+function daterangePick() {
+    startTime.value = coverterTime(daterange.value[0])
+    endTime.value = coverterTime(daterange.value[1])
+    queryBill()
+}
+
 /**
  * 分类饼图
  */
+let pieChart;
 let pieOption = reactive({})
 function pieCharts() {
     // 基于准备好的dom，初始化echarts实例
@@ -107,13 +130,13 @@ function pieCharts() {
         )
     }
     pieOption.series[0].data = array
-    let myChart = echarts.init(document.getElementById('balance'))
-    myChart.setOption(pieOption)
+    pieChart.setOption(pieOption)
 }
 
 /**
  * 月份柱状图
  */
+let histogramChart;
 let histogramOption = reactive({})
 function histogramCharts() {
     histogramOption = {
@@ -150,8 +173,7 @@ function histogramCharts() {
     }
 
     histogramOption.dataset.source = array
-    let myChart = echarts.init(document.getElementById('month-spend-income'))
-    myChart.setOption(histogramOption)
+    histogramChart.setOption(histogramOption)
 }
 </script>
 
