@@ -41,6 +41,38 @@ export function addBillItem(bill) {
     )
 }
 
+/**
+ * 更新账单
+ */
+export function uppdateBillItem(bill) {
+    return axios.post(
+        "/bill/update",
+        {
+            id: bill.id,
+            cost: bill.cost,
+            costTime: bill.costTime,
+            code: bill.code,
+            title: bill.title
+        }
+    )
+}
+/**
+ * 删除帐单
+ */
+export function deleteBillItem(ids) {
+    return axios.post(
+        "/bill/delete",
+        {
+            ids: ids
+        }
+    )
+}
+
+/**
+ * 查询总览
+ * @param {*} query 
+ * @returns 
+ */
 export function queryBillOverview(query) {
     return axios.get(
         "/bill/stat",

@@ -66,9 +66,9 @@
         </el-form>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="updateForm = false">Cancel</el-button>
+                <el-button @click="updateForm = false">取消</el-button>
                 <el-button type="primary" @click="handleUpdate()">
-                    Confirm
+                    确认
                 </el-button>
             </span>
         </template>
@@ -80,9 +80,9 @@
         </el-form>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="deleteDia = false">Cancel</el-button>
+                <el-button @click="deleteDia = false">取消</el-button>
                 <el-button type="danger" @click="handleDelete()">
-                    Confirm
+                    确认
                 </el-button>
             </span>
         </template>
@@ -99,7 +99,7 @@ import { toast } from '~/util/util.js'
 const addForm = ref(false)
 const updateForm = ref(false)
 const deleteDia = ref(false)
-const form = reactive({})
+let form = reactive({})
 const tableData = ref([])
 
 /**
@@ -151,10 +151,7 @@ function handleAdd() {
  */
  function updateDialog(row) {
     updateForm.value = true
-    form.code = row.code
-    form.id = row.id
-    form.message = row.message
-    form.status = row.status
+    form = row
 }
 function handleUpdate() {
     updateCategory(form)
