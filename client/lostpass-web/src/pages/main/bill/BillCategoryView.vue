@@ -35,8 +35,7 @@
             </el-form-item>
             <el-form-item label="种类类型" >
                 <el-select v-model="form.status" placeholder="请选择类型">
-                    <el-option label="收入" value="0" />
-                    <el-option label="支出" value="1" />
+                    <el-option v-for="item in labelOptions" :label="item.label" :value="item.value" />
                 </el-select>
             </el-form-item>
         </el-form>
@@ -67,9 +66,9 @@
         </el-form>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="updateForm = false">Cancel</el-button>
+                <el-button @click="updateForm = false">取消</el-button>
                 <el-button type="primary" @click="handleUpdate()">
-                    Confirm
+                    确认
                 </el-button>
             </span>
         </template>
@@ -81,9 +80,9 @@
         </el-form>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="deleteDia = false">Cancel</el-button>
+                <el-button @click="deleteDia = false">取消</el-button>
                 <el-button type="danger" @click="handleDelete()">
-                    Confirm
+                    确认
                 </el-button>
             </span>
         </template>
@@ -100,7 +99,7 @@ import { toast } from '~/util/util.js'
 const addForm = ref(false)
 const updateForm = ref(false)
 const deleteDia = ref(false)
-const form = reactive({})
+let form = reactive({})
 const tableData = ref([])
 
 /**
@@ -152,10 +151,7 @@ function handleAdd() {
  */
  function updateDialog(row) {
     updateForm.value = true
-    form.code = row.code
-    form.id = row.id
-    form.message = row.message
-    form.status = row.status
+    form = row
 }
 function handleUpdate() {
     updateCategory(form)
