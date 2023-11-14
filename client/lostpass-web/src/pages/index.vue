@@ -39,6 +39,14 @@
                     <el-sub-menu index="4">
                         <template #title>
                             <el-icon>
+                                <Female />
+                            </el-icon>私密
+                        </template>
+                            <el-menu-item index="/index/female" >记录预览</el-menu-item>
+                    </el-sub-menu>
+                    <el-sub-menu index="5">
+                        <template #title>
+                            <el-icon>
                                 <setting />
                             </el-icon>系统管理
                         </template>
@@ -83,7 +91,7 @@
 </template>
   
 <script setup>
-import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
+import { Menu as IconMenu, Message, Setting, Female } from '@element-plus/icons-vue'
 
 </script>
 
