@@ -12,6 +12,7 @@ import AddBillView from '~/pages/main/bill/AddBillView.vue'
 import BillOverviewView from '~/pages/main/bill/BillOverviewView.vue'
 import BillCategoryView from '~/pages/main/bill/BillCategoryView.vue'
 import Main from '~/pages/main/main/Main.vue'
+import FemaleView from '~/pages/main/female/FemaleView.vue'
 
 // 这些都会传给createRouter
 const routes = [
@@ -37,6 +38,9 @@ const routes = [
             },{
                 path: "category",
                 component: BillCategoryView
+            },{
+                path: "female",
+                component: FemaleView
             }
         ]
     },{
