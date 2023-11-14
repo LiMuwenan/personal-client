@@ -1,21 +1,30 @@
 <template>
     <el-calendar>
         <template #date-cell="{ data }">
-            <div @click="select(data)" class="card">
-                <p :class="data.isSelected ? 'is-selected' : ''">
-                    {{ data.day.split('-').slice(-1).join('-') }}
-                <p>{{ data.isSelected ? '♥' : '' }}</p>
-                <p>{{ data.isSelected ? '♥' : '' }}</p>
-                </p>
+            <div @click="select(data)">
+                <el-row>
+                    {{ data.day.split("-").slice(2).join("-") }}
+                </el-row>
+                <div v-for="(item, index) in getFromCalendarData(data)" :key="index">
+                    <el-row v-if="item.status != 0">😢</el-row>
+                    <el-row v-if="item.sex != 0">♥</el-row>
+                    <el-row v-if="item.ovulationDay != 0">☁</el-row>
+                </div>
             </div>
 
         </template>
 
     </el-calendar>
     <div @click="changeDayStatus">
-        <el-switch v-model="period.status" active-text="来了" inactive-text="没来" :active-value="1" :inactive-value="0" />
-        <el-switch v-model="period.ovulationDay" active-text="是" inactive-text="否" :active-value="1" :inactive-value="0" />
-        <el-switch v-model="period.sex" active-text="有" inactive-text="无" :active-value="1" :inactive-value="0" />
+        <el-row>
+            <el-switch v-model="period.status" active-text="来了" inactive-text="没来" :active-value="1" :inactive-value="0" />
+        </el-row>
+        <el-row>
+            <el-switch v-model="period.ovulationDay" active-text="是" inactive-text="否" :active-value="1" :inactive-value="0" />
+        </el-row>
+        <el-row>
+            <el-switch v-model="period.sex" active-text="有" inactive-text="无" :active-value="1" :inactive-value="0" />
+        </el-row>
     </div>
 </template>
 
@@ -49,21 +58,46 @@ function queryRecord() {
     queryRecords(data)
         .then((res) => {
             res = res.data.data
+            calendarData.value = res
             console.log(res)
         })
         .catch((err) => {
             consoloe.log(err)
         })
 }
-const period = reactive({
-    status: 1,
-    ovulationDay: 1,
-    sex: 1,
+
+/**
+ * 从查询到的数据中，过滤对应日期的数据
+ * @param {*} date 
+ */
+function getFromCalendarData(date) {
+    return calendarData.value.filter((item) => {
+        return date.day === item.today.substr(0, 10)
+    });
+}
+
+/**
+ * 选择一天日期，同步状态
+ */
+let period = reactive({
+    status: 0,
+    ovulationDay: 0,
+    sex: 0,
     today: coverterTime(new Date())
 })
-function select(data) {
-    period.today = data.day
-    console.log(period)
+function select(date) {
+    console.log("date:", date)
+    let today = getFromCalendarData(date)
+    console.log("today:", today)
+    if (today.length > 0) {
+        period.id = today[0].id
+        period.status = today[0].status
+        period.ovulationDay = today[0].ovulationDay
+        period.sex = today[0].sex
+        console.log("perdios1:", period)
+    }
+    period.today = date.day
+    console.log("perdios2:", period)
     toast('选择日期成功')
 }
 
@@ -75,6 +109,7 @@ function changeDayStatus() {
     changePeriod(period)
         .then((res) => {
             toast('更改成功')
+            queryRecord()
         })
         .catch((err) => {
             console.log(err)
