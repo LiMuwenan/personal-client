@@ -1,4 +1,5 @@
 import axios from "~/axios"
+import qs from 'qs'
 
 /**
  * 查询账单列表
@@ -11,14 +12,18 @@ export function queryBillList(billQuery) {
         {
             params: {
                 codes: billQuery.codes,
+                title: billQuery.title,
                 startTime: billQuery.startTime,
                 endTime: billQuery.endTime,
                 lowCost: billQuery.lowCost,
                 highCost: billQuery.highCost,
                 // 分页
                 size: billQuery.page.size,
-                current: billQuery.page.current
-            }
+                current: billQuery.page.current,
+            },
+            paramsSerializer: params => {
+                return qs.stringify(params, { indices: false })
+              }
         }
 
     )

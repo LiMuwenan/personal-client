@@ -1,5 +1,37 @@
 <template>
     <el-main>
+        
+        <div>
+            <div class="demo-date-picker">
+                <div class="block">
+                    <!-- <span class="demonstration">Default</span> -->
+                    <el-date-picker
+                    v-model="queryDate"
+                    type="daterange"
+                    range-separator="至"
+                    start-placeholder="开始时间"
+                    end-placeholder="结束时间"
+                    :size="default"
+                    />
+                </div>
+            </div>
+            <el-select v-model="billQuery.codes" 
+                multiple
+                placeholder="请选择你的账单类型">
+                <el-option v-for="category in categories"
+                    :label="category.message"
+                    :value="category.code"
+                ></el-option>
+            </el-select>
+            <el-input
+                v-model="search"
+                style="width: 240px"
+                placeholder="名称搜索"
+                :prefix-icon="Search"
+                />
+            <el-button type="primary" @click="billList()">搜索</el-button>
+            <el-button @click="clearBillQuery()">重置</el-button>
+        </div>
 
         <el-table ref="table" :data="tableData" :table-layout="fixed" :row-key="id"
             @selection-change="handleSelectionChange">
@@ -95,12 +127,18 @@ const total = ref(0)
 const currentPage = ref(1)
 const pageSize = ref(20)
 const background = ref(true)
-const billQuery = reactive({
-    codes: null,
+/**
+ *     codes: null,
     startTime: null,
     endTime: null,
     lowCost: null,
     highCost: null,
+    page: {
+        current: null,
+        size: null
+    }
+ */
+const billQuery = reactive({
     page: {
         current: null,
         size: null
@@ -125,6 +163,14 @@ onMounted(() => {
 function billList() {
     billQuery.page.current = currentPage.value
     billQuery.page.size = pageSize.value
+    if (queryDate.value != '') {
+        billQuery.startTime = coverterTime(queryDate.value[0])
+        billQuery.endTime = coverterTime(queryDate.value[1])
+    }
+    console.log('=============================', search.value)
+    if (search.value != '' ) {
+        billQuery.title = search.value
+    }
     queryBillList(billQuery)
         .then((res) => {
             let result = res.data.data
@@ -220,10 +266,52 @@ function handleSelectionChange(ids) {
     console.log(deleteIds.value)
 }
 
+/**
+ * 日期选择器
+ */
+
+const queryDate = ref('')
+
+function clearBillQuery() {
+    delete billQuery.startTime
+    delete billQuery.endTime
+    delete billQuery.codes
+    delete billQuery.title
+    currentPage.value = 1
+    pageSize.value = 20
+    search.value = ''
+    queryDate.value = ''
+    billList()
+}
 </script>
 
 <style scoped>
 .layout-container-demo .el-main {
     padding: 0;
+}
+
+.demo-date-picker {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.demo-date-picker .block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  flex: 1;
+}
+
+.demo-date-picker .block:last-child {
+  border-right: none;
+}
+
+.demo-date-picker .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
 }
 </style>

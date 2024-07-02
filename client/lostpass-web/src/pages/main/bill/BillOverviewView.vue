@@ -14,6 +14,7 @@
       <el-button type="primary" @click="daterangePick()"></el-button>
     </div>
     <div id="balance" style="width: 500px;height: 500px"></div>
+    <div id="balanceOutcome" style="width: 500px;height: 500px"></div>
     <div id="month-spend-income" style="width: 1200px;height: 600px"></div>
 </template>
 
@@ -39,6 +40,7 @@ const groupByDate = ref([])
 // 挂载组件
 onMounted(() => {
     pieChart = echarts.init(document.getElementById('balance'))
+    pieChartOutcome = echarts.init(document.getElementById('balanceOutcome'))
     histogramChart = echarts.init(document.getElementById('month-spend-income'))
     queryBill()
 })
@@ -58,7 +60,8 @@ function queryBill() {
             /**
              * 绘图
              */
-            pieCharts()
+            pieChartsIncome()
+            pieChartsOutcome()
             histogramCharts()
         })
         .catch((err) => {
@@ -80,7 +83,7 @@ function daterangePick() {
  */
 let pieChart;
 let pieOption = reactive({})
-function pieCharts() {
+function pieChartsIncome() {
     // 基于准备好的dom，初始化echarts实例
     pieOption = {
         tooltip: {
@@ -121,16 +124,71 @@ function pieCharts() {
         ]
     };
     let array = []
-    for (const key in groupByCode.value) {
+    for (const key in groupByCode.value[0]) {
         array.push(
             {
                 name: `${key}`,
-                value: `${groupByCode.value[key]}`
+                value: `${groupByCode.value[0][key]}`
             }
         )
     }
     pieOption.series[0].data = array
     pieChart.setOption(pieOption)
+}
+
+let pieChartOutcome;
+let pieOptionOutcome = reactive({})
+function pieChartsOutcome() {
+    // 基于准备好的dom，初始化echarts实例
+    pieOptionOutcome = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [
+            {
+                name: '种类占比',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                itemStyle: {
+                    borderRadius: 10,
+                    borderColor: '#fff',
+                    borderWidth: 2
+                },
+                label: {
+                    show: true,
+                    position: 'center',
+                    formatter: '{b}({d}%)'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: 20,
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: []
+            }
+        ]
+    };
+    let array = []
+    for (const key in groupByCode.value[1]) {
+        array.push(
+            {
+                name: `${key}`,
+                value: `${groupByCode.value[1][key]}`
+            }
+        )
+    }
+    pieOptionOutcome.series[0].data = array
+    pieChartOutcome.setOption(pieOptionOutcome)
 }
 
 /**
