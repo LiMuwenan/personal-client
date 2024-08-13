@@ -103,7 +103,8 @@ export function queryBillOverview(query) {
         {
             params: {
                 startTime: query.startTime,
-                endTime: query.endTime
+                endTime: query.endTime,
+                bookId: query.bookId
             }
         }
 
