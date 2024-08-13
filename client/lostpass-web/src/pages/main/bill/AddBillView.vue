@@ -27,6 +27,21 @@
                 <el-form-item label="账单花费" prop="cost">
                     <el-input v-model="bill.cost" />
                 </el-form-item>
+                <el-form-item label="所属账本" prop="billBooks">
+                    <el-select
+                        v-model="bill.billBooks"
+                        multiple
+                        placeholder="账本"
+                        style="width: 240px"
+                        >
+                        <el-option
+                            v-for="item in billBooks"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
+                        />
+                        </el-select>
+                </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit">创建</el-button>
                     <el-button @click="onClear">清空</el-button>
@@ -38,15 +53,24 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { addBillItem, queryCategory } from '~/api/bill.js'
+import { addBillItem, queryCategory, queryBook } from '~/api/bill.js'
 import { toast, coverterTime } from '~/util/util'
 
 const categories = ref([])
+const billBooks = ref([])
 onMounted(()=>{
     queryCategory()
     .then((res)=>{
         res = res.data.data
         categories.value = res
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+    queryBook()
+    .then((res)=>{
+        res = res.data.data
+        billBooks.value = res
     })
     .catch((err)=>{
         console.log(err)
@@ -60,7 +84,8 @@ const bill = reactive({
     code: '',
     message: '',
     costTime: '',
-    cost: ''
+    cost: '',
+    billBooks: '',
 })
 // 表单验证规则
 const rules = {
@@ -105,6 +130,13 @@ const rules = {
             trigger: 'blur',
             transform: (value) => Number(value)
         }
+    ],
+    billBooks: [
+        {
+            required: true,
+            message: "账本不能为空",
+            trigger: 'blur'
+        }
     ]
 }
 
@@ -129,7 +161,7 @@ const onClear = () => {
     bill.title = ''
     bill.cost=''
     bill.costTime=''
-
+    bill.billBooks=[]
 }
 </script>
 

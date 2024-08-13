@@ -88,6 +88,21 @@
             <el-form-item label="账单花费">
                 <el-input v-model="bill.cost" />
             </el-form-item>
+            <el-form-item label="所属账本" prop="billBooks">
+                <el-select
+                    v-model="bill.billBooks"
+                    multiple
+                    placeholder="账本"
+                    style="width: 240px"
+                    >
+                    <el-option
+                        v-for="item in billBooks"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
+                    />
+                </el-select>
+        </el-form-item>
         </el-form>
         <template #footer>
             <span class="dialog-footer">
@@ -118,7 +133,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { queryBillList, queryCategory, uppdateBillItem, deleteBillItem } from '~/api/bill.js'
+import { queryBillList, queryCategory, uppdateBillItem, deleteBillItem, queryBook, queryBillDetail } from '~/api/bill.js'
 import { onMounted } from 'vue';
 import { coverterTime, toast } from '~/util/util.js'
 
@@ -158,6 +173,14 @@ onMounted(() => {
         .catch((err) => {
             console.log(err)
         })
+    queryBook()
+    .then((res)=>{
+        res = res.data.data
+        billBooks.value = res
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
 })
 
 function billList() {
@@ -167,7 +190,6 @@ function billList() {
         billQuery.startTime = coverterTime(queryDate.value[0])
         billQuery.endTime = coverterTime(queryDate.value[1])
     }
-    console.log('=============================', search.value)
     if (search.value != '' ) {
         billQuery.title = search.value
     }
@@ -202,20 +224,39 @@ function handleSizeChange(number) {
     billList()
 }
 
-let bill = reactive({
+const bill = ref({
 })
 const categories = ref([])
+const billBooks = ref([])
 /**
  * 账单编辑对话框
  */
 const updateForm = ref()
 function updateDialog(row) {
     updateForm.value = true
-    bill = row
+    bill.value = row
+    console.log("======================bill", bill)
+    console.log("======================row", row)
+    queryBillDetail(row.id)
+    .then((res)=>{
+        res = res.data.data
+        res = new Set(res.booksId)
+        bill.value.billBooks=[]
+        billBooks.value.filter((item)=>{
+            if (res.has(item.id)) {
+                bill.value.billBooks.push(item.id)
+            }
+            return res.has(item.id)
+        })
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+
 }
 function handleUpdate() {
-    bill.costTime = coverterTime(bill.costTime)
-    uppdateBillItem(bill)
+    bill.value.costTime = coverterTime(bill.value.costTime)
+    uppdateBillItem(bill.value)
         .then((res) => {
             updateForm.value = false
             toast("编辑成功")

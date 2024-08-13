@@ -11,6 +11,7 @@ import UserListView from '~/pages/main/user/UserListView.vue'
 import AddBillView from '~/pages/main/bill/AddBillView.vue'
 import BillOverviewView from '~/pages/main/bill/BillOverviewView.vue'
 import BillCategoryView from '~/pages/main/bill/BillCategoryView.vue'
+import BillBooksView from '~/pages/main/bill/BillBooksView.vue'
 import Main from '~/pages/main/main/Main.vue'
 import FemaleView from '~/pages/main/female/FemaleView.vue'
 
@@ -38,6 +39,9 @@ const routes = [
             },{
                 path: "category",
                 component: BillCategoryView
+            },{
+                path: "billBook",
+                component: BillBooksView
             },{
                 path: "female",
                 component: FemaleView

@@ -30,6 +30,23 @@ export function queryBillList(billQuery) {
 }
 
 /**
+ * 查询账单详情
+ * @param {*} billId 
+ * @returns 
+ */
+export function queryBillDetail(billId) {
+    return axios.get(
+        "/bill/detail",
+        {
+            params: {
+                id: billId
+            }
+        }
+
+    )
+}
+
+/**
  * 添加账单信息
  * @param {*} bill 
  * @returns 
@@ -41,7 +58,8 @@ export function addBillItem(bill) {
            title: bill.title,
            cost: bill.cost,
            costTime: bill.costTime,
-           code: bill.code
+           code: bill.code,
+           billBooks: bill.billBooks
         }
     )
 }
@@ -57,7 +75,8 @@ export function uppdateBillItem(bill) {
             cost: bill.cost,
             costTime: bill.costTime,
             code: bill.code,
-            title: bill.title
+            title: bill.title,
+            billBooks: bill.billBooks
         }
     )
 }
@@ -143,6 +162,62 @@ export function updateCategory(data) {
 export function deleteCategory(data) {
     return axios.post(
         "/billCategory/delete",
+        {
+            id: data.id
+        }
+    )
+}
+
+/**
+ * 查询账本
+ * @returns 
+ */
+export function queryBook() {
+    return axios.get(
+        "/billBook/query",
+        {}
+    )
+}
+
+/**
+ * 添加账本
+ * @param {*} data 
+ * @returns 
+ */
+export function addBook(data) {
+    return axios.post(
+        "/billBook/add",
+        {
+            name: data.name,
+            code: data.code
+        }
+    )
+}
+
+/**
+ * 编辑更新账本
+ * @param {*} data 
+ * @returns 
+ */
+export function updateBook(data) {
+    return axios.post(
+        "/billBook/update",
+        {
+            id: data.id,
+            name: data.name,
+            code: data.code
+        }
+    )
+}
+
+/**
+ * 删除账本
+ * @param {*} data 
+ * @returns 
+ */
+export function deleteBook(data) {
+    return axios.post(
+        "/billBook/delete",
         {
             id: data.id
         }
